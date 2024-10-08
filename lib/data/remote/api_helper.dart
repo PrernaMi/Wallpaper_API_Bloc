@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as httpClient;
 import 'package:task7_wallpaper/utils/app_exceptions.dart';
 

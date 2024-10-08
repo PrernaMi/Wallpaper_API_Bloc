@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task7_wallpaper/bloc/wall_bloc.dart';
 import 'package:task7_wallpaper/bloc/wall_events.dart';
 import 'package:task7_wallpaper/bloc/wall_states.dart';
+import 'package:task7_wallpaper/screens/expanded_wall.dart';
 import 'package:task7_wallpaper/screens/search_wall.dart';
 import 'package:task7_wallpaper/widget_const/color_const.dart';
 
@@ -24,7 +25,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     TextEditingController searchController = TextEditingController();
     List<Image> listImage2 = [
       Image.asset(
-        "assets/images/img.png",
+        "assets/images/img_11.png",
         fit: BoxFit.cover,
       ),
       Image.asset(
@@ -57,12 +58,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
       ),
     ];
     List<String> text = [
-      "SunView",
+      "Sport",
       "Forest",
-      "Cloudy",
+      "Cloud",
       "Mountain",
       "Hill",
-      "Forest",
+      "Bird",
       "Village",
       "Nature",
     ];
@@ -75,17 +76,17 @@ class _DashBoardPageState extends State<DashBoardPage> {
         if (state is ErrorState) {
           return Center(child: Text(state.errorMsg));
         }
-        if (state is LoadedState) {
-          var data = state.trendingWall.photos;
+        if (state is TrendingLoadedState) {
+          var trendingData = state.trendingWall.photos;
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 50),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
+                  /*-----------Search Bar--------------*/
                   SizedBox(
                     height: 50,
-                    /*-----------Search Bar--------------*/
                     child: TextField(
                       controller: searchController,
                       onEditingComplete: () {
@@ -93,7 +94,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
                         search != ""
                             ? Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                                return WallpaperScreen();
+                                return WallpaperScreen(
+                                  search: search,
+                                );
                               }))
                             : ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -128,23 +131,38 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       SizedBox(
                         height: 10,
                       ),
+                      /*------------Trending ListView---------*/
                       SizedBox(
                         height: 180,
                         child: ListView.builder(
-                          itemCount: data!.length,
+                          itemCount: trendingData!.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (Context, index) {
                             return Row(
                               children: [
-                                Container(
-                                  width: 100,
-                                  child: ClipRRect(
-                                    child: Image.network(
-                                      data[index].src!.original!,
-                                      fit: BoxFit.cover,
-                                      height: data[index].height!.toDouble(),
+                                /*----------Navigate to Expanded image------*/
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return ExplorePage(
+                                          img: trendingData[index]
+                                              .src!
+                                              .original!);
+                                    }));
+                                  },
+                                  child: Container(
+                                    width: 100,
+                                    child: ClipRRect(
+                                      child: Image.network(
+                                        trendingData[index].src!.original!,
+                                        fit: BoxFit.cover,
+                                        height: trendingData[index]
+                                            .height!
+                                            .toDouble(),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
                                 SizedBox(
@@ -166,6 +184,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       SizedBox(
                         height: 10,
                       ),
+                      /*------------Color ListView---------*/
                       SizedBox(
                         height: 50,
                         child: ListView.builder(
@@ -174,11 +193,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           itemBuilder: (_, Index) {
                             return Row(
                               children: [
-                                Container(
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    color: ColorConst.mColor[Index],
-                                    borderRadius: BorderRadius.circular(6),
+                                InkWell(
+                                  onTap:(){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                                      return WallpaperScreen(search: searchController.text.toString(),color: ColorConst.mColor[Index]['color'],);
+                                    }));
+                            },
+                                  child: Container(
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.mColor[Index]['shade'],
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -190,16 +216,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Text(
                         "Categories",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      /*------------Categories ListView---------*/
                       Stack(
                         children: [
                           Container(
@@ -209,13 +233,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 250,
                                   childAspectRatio: 5 / 3,
                                 ),
                                 itemBuilder: (_, Index) {
                                   return Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 12, 12, 12),
+                                    padding: EdgeInsets.fromLTRB(0, 0, 12, 12),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(12),
                                       child: listImage2[Index],
@@ -230,21 +254,28 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 250,
                                   childAspectRatio: 5 / 3,
                                 ),
                                 itemBuilder: (_, Index) {
                                   return Padding(
                                     padding: EdgeInsets.fromLTRB(0, 12, 12, 12),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Center(
-                                          child: Text(
-                                        "${text[Index]}",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                                          return WallpaperScreen(search: text[Index]);
+                                        }));
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Center(
+                                            child: Text(
+                                          text[Index],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                      ),
                                     ),
                                   );
                                 }),

@@ -5,57 +5,62 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  Image img;
+  String img;
   ExplorePage({required this.img});
   @override
   State<ExplorePage> createState() => _ExplorePageState();
 }
 
 class _ExplorePageState extends State<ExplorePage> {
-  Color mTappedColor = Colors.white.withOpacity(0.5);
 
+  Color mTappedColor = Colors.white.withOpacity(0.5);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: double.infinity,
             width: double.infinity,
-            child: widget.img
+            child: Image.network(widget.img,fit: BoxFit.cover,)
           ),
-          Positioned(
-            bottom: 40,
-            left: 70,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                    onTap: () {
+          Align(
+            alignment: Alignment.center,
+            child: Positioned(
+              bottom: 0,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width*0.5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                        onTap: () {
 
-                    },
-                    child: mColumn(
-                      text: "info",
-                      icon: Icons.info_outline,
-                    )),
-                SizedBox(
-                  width: 50,
+                        },
+                        child: mColumn(
+                          text: "info",
+                          icon: Icons.info_outline,
+                        )),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    InkWell(
+                        onTap: () {
+
+                        },
+                        child: mColumn(text: "Save", icon: Icons.download)),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    InkWell(
+                        onTap: () {
+
+                        },
+                        child: mColumn(text: "Apply", icon: Icons.brush)),
+                  ],
                 ),
-                InkWell(
-                    onTap: () {
-
-                    },
-                    child: mColumn(text: "Save", icon: Icons.download)),
-                SizedBox(
-                  width: 50,
-                ),
-                InkWell(
-                    onTap: () {
-
-                    },
-                    child: mColumn(text: "Apply", icon: Icons.brush)),
-              ],
+              ),
             ),
           ),
         ],
