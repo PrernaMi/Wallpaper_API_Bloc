@@ -16,7 +16,6 @@ class WallPaperBloc extends Bloc<BlocEvent, BlocState> {
         var data = WallpaperModel.fromJson(trendingData);
         emit(TrendingLoadedState(trendingWall: data));
       } catch (e) {
-        print(e.toString());
         emit(ErrorState(errorMsg: e.toString()));
       }
     });

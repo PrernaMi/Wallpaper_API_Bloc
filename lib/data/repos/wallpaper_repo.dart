@@ -3,7 +3,6 @@ import 'package:task7_wallpaper/utils/api_urls.dart';
 
 class WallpaperRepo {
   ApiHelper apiHelper;
-
   WallpaperRepo({required this.apiHelper});
 
   Future<dynamic> getTrendingWallRepo() async {
@@ -15,11 +14,11 @@ class WallpaperRepo {
     }
   }
 
-  Future<dynamic> getSearchedWallRepo({required String search,String color = ""}) async {
+  Future<dynamic> getSearchedWallRepo(
+      {required String search, String color = ""}) async {
     try {
-      ApiUrls apiUrl = ApiUrls(search: search);
-      var data =
-          await apiHelper.getApi(url: '${apiUrl.search_url}?query=$search&color=$color');
+      var data = await apiHelper.getApi(
+          url: '${ApiUrls.search_url}?query=$search&color=$color');
       return data;
     } catch (e) {
       rethrow;
