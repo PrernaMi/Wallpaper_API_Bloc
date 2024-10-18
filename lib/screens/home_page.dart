@@ -146,9 +146,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return ExplorePage(
-                                          img: trendingData[index]
+                                          imgData: [trendingData[index]
                                               .src!
-                                              .original!);
+                                              .portrait!,trendingData[index]
+                                              .src!
+                                              .landscape!]);
                                     }));
                                   },
                                   child: Container(
@@ -195,9 +197,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
                               children: [
                                 InkWell(
                                   onTap:(){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    String search = searchController.text.toString();
+                                    search != ""?Navigator.push(context, MaterialPageRoute(builder: (context){
                                       return WallpaperScreen(search: searchController.text.toString(),color: ColorConst.mColor[Index]['color'],);
-                                    }));
+                                    })):ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please search anything to get this color theme!!")));
                             },
                                   child: Container(
                                     width: 50,

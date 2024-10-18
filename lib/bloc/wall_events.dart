@@ -3,7 +3,8 @@ abstract class BlocEvent{}
 class GetSearchedWallpaper extends BlocEvent{
   String search;
   String? color ;
-  GetSearchedWallpaper({required this.search,this.color});
+  int? page;
+  GetSearchedWallpaper({required this.search,this.color,this.page});
 }
 class GetTrendingwallpaper extends BlocEvent{
 

@@ -1,12 +1,7 @@
 class AppException implements Exception {
   String title;
   String errorMsg;
-
   AppException({required this.title, required this.errorMsg});
-
-  String toError() {
-    return '$title: $errorMsg';
-  }
 }
 
 class FetchDataException extends AppException {

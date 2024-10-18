@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task7_wallpaper/bloc/wall_events.dart';
 import 'package:task7_wallpaper/bloc/wall_states.dart';
 import 'package:task7_wallpaper/model/wallpaper_model.dart';
-
 import '../data/repos/wallpaper_repo.dart';
 
 class WallPaperBloc extends Bloc<BlocEvent, BlocState> {
@@ -26,8 +25,11 @@ class WallPaperBloc extends Bloc<BlocEvent, BlocState> {
         if(event.color == null){
           event.color = "";
         }
+        if(event.page == null){
+          event.page = 1;
+        }
         var searchingData = await repo!.getSearchedWallRepo(
-            search: event.search,color: event.color!);
+            search: event.search,color: event.color!,mPage: event.page!);
         var data = WallpaperModel.fromJson(searchingData);
         emit(SearchedLoadedState(searchWall: data));
       } catch (e) {

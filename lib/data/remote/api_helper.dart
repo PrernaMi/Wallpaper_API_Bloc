@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as httpClient;
-import 'package:task7_wallpaper/utils/app_exceptions.dart';
+
+import '../../exception_handling/app_exceptions.dart';
 
 class ApiHelper {
   Future<dynamic> getApi({required String url}) async {
