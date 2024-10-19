@@ -150,10 +150,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
                                               .src!
                                               .portrait!,trendingData[index]
                                               .src!
-                                              .landscape!]);
+                                              .landscape!],photoModel: trendingData[index],);
                                     }));
                                   },
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 100,
                                     child: ClipRRect(
                                       child: Image.network(

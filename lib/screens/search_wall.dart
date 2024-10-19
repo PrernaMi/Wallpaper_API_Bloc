@@ -105,14 +105,14 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     widget.search,
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     'Total Wallpaper: ${allWallpapers.length}',
                     style: TextStyle(color: Colors.grey, fontSize: 14),
@@ -129,7 +129,7 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
                     itemBuilder: (_, Index) {
                       var data = allWallpapers;
                       return Padding(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         child: InkWell(
                           onTap: () {
                             Navigator.push(context,
@@ -137,7 +137,7 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
                               return ExplorePage(imgData: [
                                 data[Index].src!.portrait!,
                                 data[Index].src!.landscape!
-                              ]);
+                              ],photoModel: data[Index],);
                             }));
                           },
                           child: Container(

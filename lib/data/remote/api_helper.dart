@@ -10,7 +10,7 @@ class ApiHelper {
     try {
       var res = await httpClient.get(uri, headers: {
         "Authorization":
-            "sDgcPyOZMlAyhezlyNjImDQM3MWCr3sQXTE8Scuk4AqUmiRYMJG4OIvD"
+            "wgevytKe51v7VXmWrp7m1kiXuznMzasBLFEli7xXsk9CHJ1rJqBX7fov"
       });
       return returnJsonResponse(res);
     } on SocketException catch (e) {
