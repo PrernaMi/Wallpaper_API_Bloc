@@ -177,7 +177,10 @@ class _ExplorePageState extends State<ExplorePage> {
   void _saveImage(BuildContext context) {
     GallerySaver.saveImage(widget.photoModel!.src!.portrait!).then((value) =>
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Wallpaper saved successfully..."))));
+            SnackBar(content: Text("Wallpaper saved successfully..."))),onError: (e){
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error while downloading: ${e.toString()}")));
+    });
   }
 
   void _applyImage(BuildContext context, String forWhichSet) {
@@ -216,7 +219,7 @@ class _ExplorePageState extends State<ExplorePage> {
       }
     }, onError: (e) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error while downloading: $e")));
+          .showSnackBar(SnackBar(content: Text("Error while applying: $e")));
     });
   }
 }
